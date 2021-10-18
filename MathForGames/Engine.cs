@@ -67,10 +67,10 @@ namespace MathForGames
             Scene scene = new Scene();
 
             Player player = new Player('@', 4, 1, 100,Color.PURPLE, "Player");
-            Actor actor = new Actor('A', 5, 5, Color.BLUE, "Actor");
+            Enemy enemy = new Enemy('Y', 500, 500, 50, player, Color.BLUE, "Enemy");
 
             scene.AddActor(player);
-            scene.AddActor(actor);
+            scene.AddActor(enemy);
 
             _currentSeneIndex = AddScene(scene);
 
