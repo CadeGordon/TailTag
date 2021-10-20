@@ -10,7 +10,10 @@ namespace MathForGames
     {
         private Vector2 _velocity;
         private float _speed;
-        public Player _player;
+        public Actor _target;
+        private float _viewDistance;
+        private float _lookAngle;
+        
 
         
 
@@ -26,28 +29,42 @@ namespace MathForGames
             set { _velocity = value; }
         }
 
-        public Enemy(char icon, float x, float y, float speed, Player player, Color color, string name = "Actor")
+        public Enemy(char icon, float x, float y, float viewDistance, float speed, Actor actor, Color color, string name = "Actor")
             : base(icon, x, y, color, name)
         {
-            _player = player;
+            _target = actor;
             _speed = speed;
+            _viewDistance = viewDistance;
         }
 
         public override void Update(float deltaTime)
         {
 
-            float xDirection = _player.Postion.X - Postion.X;
-            float yDirection = _player.Postion.Y - Postion.Y;
+            float xDirection = _target.Postion.X - Postion.X;
+            float yDirection = _target.Postion.Y - Postion.Y;
 
             //Create a vector that stores the move input
             Vector2 moveDirection = new Vector2(xDirection, yDirection);
 
             Velocity = moveDirection.Normalized * Speed * deltaTime;
 
-            Postion += Velocity;
+            if(GetTargetInSight())
+               Postion += Velocity;
 
             base.Update(deltaTime);
 
+        }
+
+        public bool GetTargetInSight()
+        {
+            Vector2 directionOfTarget = (_target.Postion - Postion).Normalized;
+
+            float distance = Vector2.Distance(_target.Postion, Postion);
+
+
+            float dotProduct = Vector2.DotProdcut(directionOfTarget, Forward);
+
+            return Vector2.DotProdcut(directionOfTarget, Forward) > 0.5 && distance < _viewDistance;
         }
 
         public override void OnCollision(Actor actor)

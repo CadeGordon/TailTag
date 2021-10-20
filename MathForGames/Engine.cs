@@ -67,10 +67,16 @@ namespace MathForGames
             Scene scene = new Scene();
 
             Player player = new Player('@', 4, 1, 100,Color.PURPLE, "Player");
-            Enemy enemy = new Enemy('Y', 500, 500, 50, player, Color.BLUE, "Enemy");
+            player.CollisionRadius = 20;
+            Enemy enemy = new Enemy('Y', 300, 300, 100, 50, player, Color.BLUE, "Enemy");
+            enemy.CollisionRadius = 20;
+            
+           
+            UIText text = new UIText(10, 10, "TestBox", Color.LIME, 70, 70, 15, "This is the test text \n it is not to be taken seriously");
 
             scene.AddActor(player);
             scene.AddActor(enemy);
+            
 
             _currentSeneIndex = AddScene(scene);
 
